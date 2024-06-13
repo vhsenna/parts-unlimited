@@ -1,0 +1,18 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+
+# Poetry local configuration file
+poetry.toml
+
+# ruff
+.ruff_cache/
+
+# Unit test / coverage reports
+.cache
+*.cover
+cover/
+.coverage
+.coverage.*
+coverage.xml
+htmlcov/
+.pytest_cache/
