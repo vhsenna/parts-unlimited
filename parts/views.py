@@ -20,6 +20,15 @@ def most_common_words():
     """
     Return the five most common words in part descriptions
     """
+    STOP_WORDS = set([
+        "a", "an", "the", "and", "but", "its", "or", "for", "nor", "so", "yet",
+        "at", "by", "in", "of", "on", "to", "with", "be", "have", "are", "do",
+        "that", "this", "which", "were", "what", "all", "any", "as", "both",
+        "down", "in", "he", "has", "from", "few", "for", "from", "into", "is",
+        "it", "more", "most", "no", "not", "only", "out", "over", "up", "very",
+        "will", "was"
+    ])
+
     try:
         descriptions = Part.objects.values_list("description", flat=True)
 
@@ -38,7 +47,9 @@ def most_common_words():
                 status=status.HTTP_204_NO_CONTENT
             )
 
-        most_common_words = Counter(words).most_common(5)
+        filtered_words = [word for word in words if word not in STOP_WORDS]
+
+        most_common_words = Counter(filtered_words).most_common(5)
 
         response_data = {
             "most_common_words": dict(most_common_words)
