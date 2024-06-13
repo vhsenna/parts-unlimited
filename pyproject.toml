@@ -11,6 +11,8 @@ django = "^5.0.6"
 djangorestframework = "^3.15.1"
 python-dotenv = "^1.0.1"
 mysql-connector-python = "^8.4.0"
+drf-yasg = "^1.21.7"
+mysqlclient = "^2.2.4"
 
 
 [tool.poetry.group.dev.dependencies]
@@ -37,7 +39,7 @@ format = 'ruff check . --fix && ruff format .'
 pre_test = 'task lint'
 test = 'pytest -s -x --cov=parts_unlimited -vv'
 post_test = 'coverage html'
-run = ''
+run = 'python manage.py runserver'
 
 [build-system]
 requires = ["poetry-core"]
