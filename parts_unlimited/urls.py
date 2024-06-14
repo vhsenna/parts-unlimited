@@ -11,7 +11,7 @@ router.register(r"parts", PartViewSet)
 
 schema_view = get_schema_view(
     openapi.Info(
-        title="Parts Unlimited",
+        title="Parts Unlimited API",
         default_version='v1',
         description="",
         contact=openapi.Contact(email="vhsenna@gmail.com"),
