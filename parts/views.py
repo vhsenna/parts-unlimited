@@ -41,51 +41,9 @@ def most_common_words(request):
     """
     Retrieve the five most common words in part descriptions.
 
-    This endpoint processes all part descriptions in the database, counts the frequency of each word,
-    filters out common stop words, and returns the top five most common words.
-
-    **HTTP Method:** GET
-
-    **Response Codes:**
-    - `200 OK`: Successfully retrieved.
-        - **Response Example:**
-        ```json
-        {
-            "most_common_words": {
-                "alloy": 13,
-                "heavy": 9,
-                "nickel": 8,
-                "tightly": 7,
-                "coil": 5
-            }
-        }
-        ```
-    - `204 No Content`: No descriptions found.
-        - **Response Example:**
-        ```json
-        {
-            "message": "No descriptions found"
-        }
-        ```
-        or
-        ```json
-        {
-            "message": "No words found in descriptions"
-        }
-        ```
-    - `500 Internal Server Error`: Database error occurred.
-        - **Response Example:**
-        ```json
-        {
-            "error": "Database error occurred"
-        }
-        ```
-
-    **Parameters:**
-    - No parameters.
-
-    **Returns:**
-    - A JSON object with the most common words and their counts.
+    This endpoint processes all part descriptions in the database, counts the
+    frequency of each word, filters out common stop words, and returns the top
+    five most common words.
     """
     try:
         descriptions = Part.objects.values_list("description", flat=True)
