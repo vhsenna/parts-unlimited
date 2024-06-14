@@ -10,6 +10,15 @@ from rest_framework.response import Response
 from .models import Part
 from .serializers import PartSerializer
 
+STOP_WORDS = set([
+    "a", "an", "the", "and", "but", "its", "or", "for", "nor", "so", "yet",
+    "at", "by", "in", "of", "on", "to", "with", "be", "have", "are", "do",
+    "that", "this", "which", "were", "what", "all", "any", "as", "both",
+    "down", "in", "he", "has", "from", "few", "for", "from", "into", "is",
+    "it", "more", "most", "no", "not", "only", "out", "over", "up", "very",
+    "will", "was"
+])
+
 
 class PartViewSet(viewsets.ModelViewSet):
     """
@@ -20,7 +29,7 @@ class PartViewSet(viewsets.ModelViewSet):
 
 
 @swagger_auto_schema(
-    method='get',
+    method="get",
     responses={
         200: "Successfully retrieved.",
         204: "No descriptions found.",
@@ -28,7 +37,7 @@ class PartViewSet(viewsets.ModelViewSet):
     }
 )
 @api_view(["GET"])
-def most_common_words():
+def most_common_words(request):
     """
     Retrieve the five most common words in part descriptions.
 
@@ -78,15 +87,6 @@ def most_common_words():
     **Returns:**
     - A JSON object with the most common words and their counts.
     """
-    STOP_WORDS = set([
-        "a", "an", "the", "and", "but", "its", "or", "for", "nor", "so", "yet",
-        "at", "by", "in", "of", "on", "to", "with", "be", "have", "are", "do",
-        "that", "this", "which", "were", "what", "all", "any", "as", "both",
-        "down", "in", "he", "has", "from", "few", "for", "from", "into", "is",
-        "it", "more", "most", "no", "not", "only", "out", "over", "up", "very",
-        "will", "was"
-    ])
-
     try:
         descriptions = Part.objects.values_list("description", flat=True)
 
@@ -118,9 +118,9 @@ def most_common_words():
             status=status.HTTP_200_OK
         )
 
-    except DatabaseError:
+    except DatabaseError as e:
         return Response(
-            {"error": "Database error occurred"},
+            {"error": str(e)},
             status=status.HTTP_500_INTERNAL_SERVER_ERROR
         )
 
