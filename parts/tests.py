@@ -32,47 +32,47 @@ class BasePartTestCase(APITestCase):
 class CreateTests(BasePartTestCase):
     def test_create_valid_part(self):
         response = self.client.post(
-            reverse('part-list'),
+            reverse("part-list"),
             self.valid_data,
-            format='json'
+            format="json"
         )
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
     def test_create_invalid_part(self):
         response = self.client.post(reverse(
-            'part-list'), self.invalid_data, format='json'
+            "part-list"), self.invalid_data, format="json"
         )
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
 
 class RetrieveTests(BasePartTestCase):
     def test_list_all_parts(self):
-        response = self.client.get(reverse('part-list'))
+        response = self.client.get(reverse("part-list"))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data), Part.objects.count())
 
     def test_retrieve_single_part(self):
-        response = self.client.get(reverse('part-detail', args=[self.part.pk]))
+        response = self.client.get(reverse("part-detail", args=[self.part.pk]))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data['name'], self.part.name)
+        self.assertEqual(response.data["name"], self.part.name)
 
     def test_list_no_parts(self):
         Part.objects.all().delete()
-        response = self.client.get(reverse('part-list'))
+        response = self.client.get(reverse("part-list"))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data), 0)
 
     def test_retrieve_non_existent_part(self):
-        response = self.client.get(reverse('part-detail', args=[9999]))
+        response = self.client.get(reverse("part-detail", args=[9999]))
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
 
 class UpdateTests(BasePartTestCase):
     def test_update_part(self):
         updated_data = self.valid_data.copy()
-        updated_data['name'] = "Updated Part"
+        updated_data["name"] = "Updated Part"
         response = self.client.put(reverse(
-            'part-detail', args=[self.part.pk]), updated_data, format='json'
+            "part-detail", args=[self.part.pk]), updated_data, format="json"
         )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.part.refresh_from_db()
@@ -81,7 +81,7 @@ class UpdateTests(BasePartTestCase):
     def test_partial_update_part(self):
         partial_data = {"name": "Partially Updated Part"}
         response = self.client.patch(reverse(
-            'part-detail', args=[self.part.pk]), partial_data, format='json'
+            "part-detail", args=[self.part.pk]), partial_data, format="json"
         )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.part.refresh_from_db()
@@ -89,7 +89,7 @@ class UpdateTests(BasePartTestCase):
 
     def test_update_non_existent_part(self):
         response = self.client.put(reverse(
-            'part-detail', args=[9999]), self.valid_data, format='json'
+            "part-detail", args=[9999]), self.valid_data, format="json"
         )
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
@@ -97,13 +97,13 @@ class UpdateTests(BasePartTestCase):
 class DeleteTests(BasePartTestCase):
     def test_delete_part(self):
         response = self.client.delete(reverse(
-            'part-detail', args=[self.part.pk])
+            "part-detail", args=[self.part.pk])
         )
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
         self.assertFalse(Part.objects.filter(pk=self.part.pk).exists())
 
     def test_delete_non_existent_part(self):
-        response = self.client.delete(reverse('part-detail', args=[9999]))
+        response = self.client.delete(reverse("part-detail", args=[9999]))
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
 
@@ -112,7 +112,7 @@ class MostCommonWordsTests(APITestCase):
         """
         Test the scenario where no descriptions are found in the database.
         """
-        response = self.client.get(reverse('most-common-words'))
+        response = self.client.get(reverse("most-common-words"))
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
         self.assertEqual(response.data, {"message": "No descriptions found"})
 
@@ -127,10 +127,10 @@ class MostCommonWordsTests(APITestCase):
             weight_ounces=10,
             is_active=True
         )
-        response = self.client.get(reverse('most-common-words'))
+        response = self.client.get(reverse("most-common-words"))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertIn('most_common_words', response.data)
-        self.assertEqual(response.data['most_common_words'], {})
+        self.assertIn("most_common_words", response.data)
+        self.assertEqual(response.data["most_common_words"], {})
 
     def test_most_common_words(self):
         """
@@ -158,7 +158,7 @@ class MostCommonWordsTests(APITestCase):
             weight_ounces=30,
             is_active=True
         )
-        response = self.client.get(reverse('most-common-words'))
+        response = self.client.get(reverse("most-common-words"))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data["most_common_words"], {
             "load": 3,
