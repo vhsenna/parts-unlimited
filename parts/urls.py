@@ -8,5 +8,5 @@ router.register(r"parts", PartViewSet)
 
 urlpatterns = [
     path("", include(router.urls)),
-    path("most-common-words", most_common_words, name="most-common-words"),
+    path("most-common-words/", most_common_words, name="most-common-words"),
 ]
