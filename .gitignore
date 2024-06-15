@@ -2,7 +2,7 @@
 __pycache__/
 
 # Environments
-.env
+# .env
 
 # Poetry local configuration file
 poetry.toml
