@@ -113,8 +113,8 @@ python manage.py runserver
 ```
 
 ## Future Improvements
-- [ ] Ensure efficient database queries using Django ORM optimizations.
-- [ ] Implement caching strategies.
-- [ ] Use robust authentication methods like OAuth2 or JWT.
-- [ ] Serve the API over HTTPS to encrypt data in transit.
+- [ ] Ensure efficient database queries using Django ORM optimizations
+- [ ] Implement caching strategies
+- [ ] Use robust authentication methods like OAuth2 or JWT
+- [ ] Serve the API over HTTPS to encrypt data in transit
 - [ ] Use Docker to containerize the application
